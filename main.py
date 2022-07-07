@@ -10,9 +10,6 @@ import numpy as np
 
 path = '/Users/jacquelinedoan/PycharmProjects/comp_vision/opencv/data/haarcascades'
 
-# face_cascade = cv2.CascadeClassifier(path +'haarcascade_frontalface_default.xml')
-# eye_cascade = cv2.CascadeClassifier(path +'haarcascade_eye.xml')
-
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
 
@@ -22,23 +19,16 @@ filter = cv2.imread('filter.png')
 #get shape of filter
 original_filter_h,original_filter_w,filter_channels = filter.shape
 
-#convert to gray
 filter_gray = cv2.cvtColor(filter, cv2.COLOR_BGR2GRAY)
-
 ret, original_mask = cv2.threshold(filter_gray, 10, 255, cv2.THRESH_BINARY_INV)
 original_mask_inv = cv2.bitwise_not(original_mask)
 
-#for each face
-
-
-# read video
+# camera access
 cap = cv2.VideoCapture(0)
 ret, img = cap.read()
 img_h, img_w = img.shape[:2]
 
-while True:  # continue to run until user breaks loop
-
-    # read each frame of video and convert to gray
+while True: 
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -57,7 +47,7 @@ while True:  # continue to run until user breaks loop
         face_y2 = face_y1 + face_h
 
         # filter size in relation to face by scaling
-        filter_width = int(1.5 * face_w)
+        filter_width = int(1.2 * face_w)
         filter_height = int(filter_width * original_filter_h / original_filter_w)
 
         # setting location of coordinates of filter
